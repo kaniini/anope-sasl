@@ -173,6 +173,30 @@ class UnrealSASLImplementation : public SASLImplementation
 		/* XXX: memory leak on module unload... */
 		sasl_message = new IRCDMessageSASL(this);
 	}
+
+	void SendSVSLOGIN(Anope::string target, Anope::string login)
+	{
+		Anope::string server;
+		size_t pos;
+
+		/* convert PUID into servername */
+		pos = target.find('!');
+		server = target.substr(0, pos);
+
+		UplinkSocket::Message(Me) << "SVSLOGIN " << server << " " << target << " " << login;
+	}
+
+	void SendSASL(Anope::string target, char mode, Anope::string data)
+	{
+		Anope::string server;
+		size_t pos;
+
+		/* convert PUID into servername */
+		pos = target.find('!');
+		server = target.substr(0, pos);
+
+		UplinkSocket::Message(Me) << "SASL " << server << " " << target << " " << mode << " " << data;
+	}
 };
 
 class SASLModule : public Module
