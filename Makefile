@@ -1,8 +1,15 @@
 ANOPE_SRC := ../anope
+SRCS = m_sasl.cpp
+OBJS = ${SRCS:.cpp=.so}
+
+.SUFFIXES: .so
+.PHONY: clean
+
+.cpp.so:
+	${CXX} -fPIC -DPIC -shared -I$(ANOPE_SRC)/include -I$(ANOPE_SRC)/build/include -I$(ANOPE_SRC)/modules/pseudoclients $< -o $@
 
 build: all
-all: m_sasl.so
+all: $(OBJS)
 
-m_sasl.so:
-	${CXX} -fPIC -DPIC -shared -o m_sasl.so m_sasl.cpp -I$(ANOPE_SRC)/include -I$(ANOPE_SRC)/build/include -I$(ANOPE_SRC)/modules/pseudoclients
-
+clean:
+	rm -f $(OBJS)
