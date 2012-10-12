@@ -6,7 +6,7 @@ OBJS = ${SRCS:.cpp=.so}
 .PHONY: clean
 
 .cpp.so:
-	${CXX} -fPIC -DPIC -shared -I$(ANOPE_SRC)/include -I$(ANOPE_SRC)/build/include -I$(ANOPE_SRC)/modules/pseudoclients $< -o $@
+	${CXX} -Wall -fPIC -DPIC -shared -I$(ANOPE_SRC)/include -I$(ANOPE_SRC)/build/include -I$(ANOPE_SRC)/modules/pseudoclients $< -o $@
 
 build: all
 all: $(OBJS)
