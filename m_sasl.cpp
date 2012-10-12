@@ -19,18 +19,13 @@ enum SASLReturn
  ASASL_DONE
 };
 
-struct SASLSession
-{
- Anope::string uid;
-};
-
 class SASLMechanism
 {
  SASLImplementation *m_impl;
- SASLSession *m_session;
+ Anope::string m_uid;
 
  public:
-	SASLMechanism(SASLImplementation *impl, SASLSession *session) : m_impl(impl), m_session(session) { };
+	SASLMechanism(SASLImplementation *impl, Anope::string uid) : m_impl(impl), m_uid(uid) { };
 	~SASLMechanism();
 
 	virtual SASLReturn MechStart(Anope::string &out);
