@@ -77,3 +77,11 @@ Yes!  I have also formally-proven my code by hand, but I have only done very lig
 testing on the code.  It works for me, and is formally proven though.  Your mileage,
 may of course, vary greatly.
 
+Will this work with Iris?
+-------------------------
+
+Unfortunately it won't, as Iris does SASL authentication using an Atheme-specific
+mechanism called `AUTHCOOKIE`.  If Anope had a way to get authentication tickets
+through it's XMLRPC interface, then an `AUTHCOOKIE`-like interface could be added
+and Iris could be modified to support both interfaces.
+
