@@ -36,3 +36,36 @@ a message to the Anope logfile if there is not an implementation available.
 
 *Note*: You will need to add `m_sasl.so` *after* your protocol module, so the module can
 detect what protocol module is being used.
+
+FAQ
+===
+
+Will you add support for DH-BLOWFISH?
+-------------------------------------
+
+The DH-BLOWFISH mechanism is deprecated in Atheme, and not included in the IRCv3 SASL
+specification and not certified by the IETF as a protocol-generic SASL mechanism.
+
+So I have no plans for that.  You should just use STARTTLS instead to establish
+encryption.
+
+Will you try to upstream this in Anope?
+---------------------------------------
+
+LOL.
+
+No, really, are you?
+--------------------
+
+LOL.
+
+Really, really, are you?
+------------------------
+
+I strongly doubt the current maintainer of Anope would accept the patch due to
+political reasons.  So I offer this module instead.  Someone else can try to upstream
+the functionality, but they should do it properly instead of implementing it as this
+module.
+
+Properly would be to farm out the `SASLImplementation` class to the protocol modules,
+for example.
