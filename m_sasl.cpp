@@ -145,7 +145,7 @@ void SASLImplementation::DestroySession(Anope::string uid)
 	sasl_sessions.erase(uid);
 }
 
-class UnrealSASLImplementation : SASLImplementation
+class UnrealSASLImplementation : public SASLImplementation
 {
 	struct IRCDMessageSASL : IRCDMessage
 	{
@@ -167,9 +167,27 @@ class UnrealSASLImplementation : SASLImplementation
 
 	IRCDMessageSASL *sasl_message;
 
+ public:
 	UnrealSASLImplementation(Module *module) : SASLImplementation(module)
 	{
 		/* XXX: memory leak on module unload... */
 		sasl_message = new IRCDMessageSASL(this);
 	}
 };
+
+class SASLModule : public Module
+{
+ private:
+	SASLImplementation *impl;
+
+ public:
+	SASLModule(const Anope::string &name, const Anope::string &creator) : Module(name, creator, THIRD)
+	{
+		this->SetAuthor("atheme.org");
+
+		if (ircdproto->GetProtocolName() == "UnrealIRCd 3.2.x")
+			impl = new UnrealSASLImplementation(this);
+	}
+};
+
+MODULE_INIT(SASLModule)
