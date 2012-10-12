@@ -69,3 +69,11 @@ module.
 
 Properly would be to farm out the `SASLImplementation` class to the protocol modules,
 for example.
+
+Does this really work?
+----------------------
+
+Yes!  I have also formally-proven my code by hand, but I have only done very light
+testing on the code.  It works for me, and is formally proven though.  Your mileage,
+may of course, vary greatly.
+
