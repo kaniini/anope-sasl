@@ -16,8 +16,8 @@ class SASLImplementation
 	SASLImplementation(Module *module) : m_module(module) { };
 
  public:
-	void SendSVSLOGIN(Anope::string target, Anope::string login);
-	void SendSASL(Anope::string target, char mode, Anope::string data);
+	virtual void SendSVSLOGIN(Anope::string target, Anope::string login);
+	virtual void SendSASL(Anope::string target, char mode, Anope::string data);
 	void HandleMessage(Anope::string uid, char mode, Anope::string data);
 	void DestroySession(Anope::string uid);
 	SASLMechanism *FindSession(Anope::string uid, Anope::string mech);
