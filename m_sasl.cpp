@@ -29,10 +29,10 @@ class SASLIdentifyRequest : public IdentifyRequest
 class SASLMechanism
 {
  protected:
-	Module *m_module;
-	SASLImplementation *m_impl;
 	SASLIdentifyRequest *m_idreq;
+	SASLImplementation *m_impl;
 	Anope::string m_uid;
+	Module *m_module;
 
  public:
 	SASLMechanism(Module *m, SASLImplementation *impl, Anope::string uid) : m_impl(impl), m_uid(uid), m_module(m) { };
