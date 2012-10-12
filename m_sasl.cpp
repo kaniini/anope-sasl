@@ -199,6 +199,54 @@ class UnrealSASLImplementation : public SASLImplementation
 	}
 };
 
+class InspIRCdSASLImplementation : public SASLImplementation
+{
+	struct IRCDMessageENCAP : IRCDMessage
+	{
+		SASLImplementation *m_parent;
+
+		IRCDMessageENCAP(SASLImplementation *parent) : IRCDMessage("ENCAP", 2), m_parent(parent) { };
+
+		/*
+		 * On InspIRCd, like Unreal, the message data is encapsulated, so we have
+		 * to de-encapsulate it.
+		 *
+		 * params[0] = server mask
+		 * params[1] = command
+		 * params[2+] = payload
+		 */
+		bool Run(MessageSource &source, const std::vector<Anope::string> &params)
+		{
+			if (params[1] != "SASL")
+				return false;
+
+			m_parent->HandleMessage(params[2], params[4][0], params[5]);
+			return true;
+		}
+	};
+
+	IRCDMessageENCAP *encap_message;
+
+ public:
+	InspIRCdSASLImplementation(Module *module) : SASLImplementation(module)
+	{
+		/* XXX: memory leak on module unload... */
+		encap_message = new IRCDMessageENCAP(this);
+	}
+
+	void SendSVSLOGIN(Anope::string target, Anope::string login)
+	{
+		UplinkSocket::Message(Me) << "METADATA " << target << " accountname :" << login;
+	}
+
+	void SendSASL(Anope::string target, char mode, Anope::string data)
+	{
+		Anope::string sid = target.substr(0, 3);
+
+		UplinkSocket::Message(Me) << "ENCAP " << sid << " SASL " << Me->GetSID() << " " << target << " " << mode << " " << data;
+	}
+};
+
 class SASLModule : public Module
 {
  private:
@@ -214,6 +262,8 @@ class SASLModule : public Module
 		protoname = ircdproto->GetProtocolName();
 		if (protoname == "UnrealIRCd 3.2.x")
 			impl = new UnrealSASLImplementation(this);
+		else if (protoname == "InspIRCd 2.0" || protoname == "InspIRCd 1.2")
+			impl = new InspIRCdSASLImplementation(this);
 		else
 			Log() << "Protocol '" << protoname << "' is not yet supported by this module. :(";
 	}
