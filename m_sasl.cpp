@@ -183,10 +183,15 @@ class SASLModule : public Module
  public:
 	SASLModule(const Anope::string &name, const Anope::string &creator) : Module(name, creator, THIRD)
 	{
+		Anope::string protoname;
+
 		this->SetAuthor("atheme.org");
 
-		if (ircdproto->GetProtocolName() == "UnrealIRCd 3.2.x")
+		protoname = ircdproto->GetProtocolName();
+		if (protoname == "UnrealIRCd 3.2.x")
 			impl = new UnrealSASLImplementation(this);
+		else
+			Log() << "Protocol '" << protoname << "' is not yet supported by this module. :(";
 	}
 };
 
