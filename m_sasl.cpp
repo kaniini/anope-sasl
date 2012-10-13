@@ -6,7 +6,6 @@
 #include "module.h"
 
 class SASLMechanism;
-
 class SASLImplementation
 {
  protected:
@@ -22,7 +21,6 @@ class SASLImplementation
 	SASLMechanism *FindSession(Anope::string uid, Anope::string mech);
 };
 
-class SASLMechanism;
 class SASLIdentifyRequest : public IdentifyRequest
 {
  private:
