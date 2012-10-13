@@ -2,12 +2,13 @@ ANOPE_SRC := ../anope
 ANOPE_BIN := $(HOME)/services
 SRCS = m_sasl.cpp
 OBJS = ${SRCS:.cpp=.so}
+CXXFLAGS = ${CFLAGS} -Wall -std=gnu++03 -pedantic
 
 .SUFFIXES: .so
 .PHONY: clean
 
 .cpp.so:
-	${CXX} -Wall -fPIC -DPIC -shared -I$(ANOPE_SRC)/include -I$(ANOPE_SRC)/build/include -I$(ANOPE_SRC)/modules/pseudoclients $< -o $@
+	${CXX} ${CXXFLAGS} -fPIC -DPIC -shared -I$(ANOPE_SRC)/include -I$(ANOPE_SRC)/build/include -I$(ANOPE_SRC)/modules/pseudoclients $< -o $@
 
 build: all
 all: $(OBJS)
