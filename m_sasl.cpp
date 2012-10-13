@@ -7,13 +7,12 @@
 
 class SASLMechanism;
 
-std::map<Anope::string, SASLMechanism *> sasl_sessions;
-
 class SASLImplementation
 {
  protected:
 	Module *m_module;
 	SASLImplementation(Module *module) : m_module(module) { };
+	std::map<Anope::string, SASLMechanism *> m_sessions;
 
  public:
 	virtual void SendSVSLOGIN(Anope::string target, Anope::string login);
@@ -116,14 +115,14 @@ struct PlainMechanism : public SASLMechanism
 
 SASLMechanism *SASLImplementation::FindSession(Anope::string uid, Anope::string mech)
 {
-	SASLMechanism *mech_p = sasl_sessions[uid];
+	SASLMechanism *mech_p = m_sessions[uid];
 
 	if (mech_p)
 		return mech_p;
 
 	mech_p = new PlainMechanism(m_module, this, uid);
 	mech_p->MechStart();
-	sasl_sessions[uid] = mech_p;
+	m_sessions[uid] = mech_p;
 
 	return mech_p;
 }
@@ -137,12 +136,12 @@ void SASLImplementation::HandleMessage(Anope::string uid, char mode, Anope::stri
 
 void SASLImplementation::DestroySession(Anope::string uid)
 {
-	SASLMechanism *mech_p = sasl_sessions[uid];
+	SASLMechanism *mech_p = m_sessions[uid];
 
 	if (mech_p)
 		delete mech_p;
 
-	sasl_sessions.erase(uid);
+	m_sessions.erase(uid);
 }
 
 class UnrealSASLImplementation : public SASLImplementation
