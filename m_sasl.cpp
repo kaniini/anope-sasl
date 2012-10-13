@@ -165,14 +165,10 @@ class UnrealSASLImplementation : public SASLImplementation
 		}
 	};
 
-	IRCDMessageSASL *sasl_message;
+	IRCDMessageSASL sasl_message;
 
  public:
-	UnrealSASLImplementation(Module *module) : SASLImplementation(module)
-	{
-		/* XXX: memory leak on module unload... */
-		sasl_message = new IRCDMessageSASL(this);
-	}
+	UnrealSASLImplementation(Module *module) : SASLImplementation(module), sasl_message(this) { }
 
 	void SendSVSLOGIN(Anope::string target, Anope::string login)
 	{
@@ -225,14 +221,10 @@ class InspIRCdSASLImplementation : public SASLImplementation
 		}
 	};
 
-	IRCDMessageENCAP *encap_message;
+	IRCDMessageENCAP encap_message;
 
  public:
-	InspIRCdSASLImplementation(Module *module) : SASLImplementation(module)
-	{
-		/* XXX: memory leak on module unload... */
-		encap_message = new IRCDMessageENCAP(this);
-	}
+	InspIRCdSASLImplementation(Module *module) : SASLImplementation(module), encap_message(this) { }
 
 	void SendSVSLOGIN(Anope::string target, Anope::string login)
 	{
