@@ -188,7 +188,7 @@ class UnrealSASLImplementation : public SASLImplementation
 		pos = target.find('!');
 		server = target.substr(0, pos);
 
-		UplinkSocket::Message(Me) << "SASL " << server << " " << target << " " << mode << " " << data;
+		UplinkSocket::Message(findbot(Config->NickServ)) << "SASL " << server << " " << target << " " << mode << " " << data;
 	}
 };
 
