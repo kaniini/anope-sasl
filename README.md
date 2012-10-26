@@ -4,10 +4,10 @@ anope-sasl
 SASL module for Anope 1.9.7 and later.
 
 This is a from-scratch implementation of the SASL component of IRCv3 for Anope, based
-in part (in terms of design) on the SASL stack in Atheme.  I wrote this in an afternoon,
-as a proof of concept that yes, really, Anope *can* support SASL if they'd be willing to
-take the 5 minutes (it took me 90 minutes, and I was unfamiliar with Anope's internals)
-to actually write the code instead of spreading FUD.
+in part (in terms of design) on the SASL stack in Atheme.
+
+Anope 1.9.8 will have SASL support built in, so this module is only needed in Anope
+1.9.7.
 
 For copying information, see `COPYING.md`.
 
@@ -49,27 +49,6 @@ specification and not certified by the IETF as a protocol-generic SASL mechanism
 So I have no plans for that.  You should just use STARTTLS instead to establish
 encryption.
 
-Will you try to upstream this in Anope?
----------------------------------------
-
-LOL.
-
-No, really, are you?
---------------------
-
-LOL.
-
-Really, really, are you?
-------------------------
-
-I strongly doubt the current maintainer of Anope would accept the patch due to
-political reasons.  So I offer this module instead.  Someone else can try to upstream
-the functionality, but they should do it properly instead of implementing it as this
-module.
-
-Properly would be to farm out the `SASLImplementation` class to the protocol modules,
-for example.
-
 Does this really work?
 ----------------------
 
@@ -84,4 +63,3 @@ Unfortunately it won't, as Iris does SASL authentication using an Atheme-specifi
 mechanism called `AUTHCOOKIE`.  If Anope had a way to get authentication tickets
 through it's XMLRPC interface, then an `AUTHCOOKIE`-like interface could be added
 and Iris could be modified to support both interfaces.
-
